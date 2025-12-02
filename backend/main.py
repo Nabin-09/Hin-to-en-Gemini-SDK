@@ -37,10 +37,10 @@ def home():
 async def translate_text(request: TranslationRequest):
     try:
         prompt = f"Translate the following Hindi text to English. Only provide the english translation, nothing else.\n\nHindi: {request.text}"
-
+        response = await model.generate_content(prompt)
         if not response.text:
             return {"translation": "Could not translate. Try again."}      
-        response = await model.generate_content(prompt)
+        
         
         return {"translation": response.text.strip()}
     
