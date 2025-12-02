@@ -7,7 +7,7 @@ import google.generativeai as genai
 
 load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-2.5-flash-lite')
 
 app = FastAPI()
 
@@ -37,7 +37,7 @@ def home():
 async def translate_text(request: TranslationRequest):
     try:
         prompt = f"Translate the following Hindi text to English. Only provide the english translation, nothing else.\n\nHindi: {request.text}"
-        response = await model.generate_content(prompt)
+        response = model.generate_content(prompt)
         if not response.text:
             return {"translation": "Could not translate. Try again."}      
         
