@@ -3,16 +3,18 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
-from openai import OpenAI
+import google.generativeai as genai
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv('OPEN AI KEY'))
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 app = FastAPI()
 
 origins = [
-    'http://localhost:5173',
-    'http://localhost:3000',
+    "http://localhost:5173",
+    "https://hindi-translator-app.vercel.app", 
+    '"*"'
 ]
 
 app.add_middleware(
@@ -27,21 +29,14 @@ class TranslationRequest(BaseModel):
     text : str
 
 
-@app.post('/translate')
-async def translate_text(req : TranslationRequest):
-    try :
-        response = client.chat.completions.create(
-            model = 'gpt-40-mini',
-            messages=[
-                {'role' : 'system' , 'content' : 'You are a translator you task it to translates '
-                'all the sentences provided and Hindi to English and return the translation only , '
-                'no greeting or formal extra messages'},
-                {'role' : 'user' , 'content' : req.text}
-            ]
-        )
-
-        English_text = response.choices[0].message.content
-        return {'translation' : English_text}
+@app.post("/translate")
+async def translate_text(request: TranslationRequest):
+    try:
+        prompt = f"Translate the following Hindi text to English. Only provide the english translation, nothing else.\n\nHindi: {request.text}"
+        
+        response = model.generate_content(prompt)
+        
+        return {"translation": response.text.strip()}
     
     except Exception as e :
-        raise HTTPexception(status_code=500 , detail = str(e))
+        raise HTTPException(status_code=500 , detail = str(e))
