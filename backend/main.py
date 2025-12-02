@@ -1,4 +1,4 @@
-from fastapi import FastAPI , HTTPexception
+from fastapi import FastAPI , HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import os
@@ -23,7 +23,7 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-class TranslationRequest(BaseModel);
+class TranslationRequest(BaseModel):
     text : str
 
 
