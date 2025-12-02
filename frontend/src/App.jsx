@@ -13,7 +13,7 @@ function App() {
     setTrans("");
 
     try {
-      const response = await fetch("https://hin-to-en-gemini-sdk.onrender.co/translate", {
+      const response = await fetch("https://hin-to-en-gemini-sdk.onrender.com/translate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
