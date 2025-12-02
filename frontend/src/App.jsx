@@ -22,8 +22,39 @@ function App(){
         body : JSON.stringify({text : inpText}),
       });
 
-      const data = 
+      const data = await response.json();
+
+      setTrans(data.Trans);
+     }catch(error){
+      console.log('Error', error);
+      setTrans('Some error occured while Translating, sorry for the inconvenience')
+     }finally{
+      setIsLoading(false)
      }
   }
+
+  return (
+    <div className="app-container">
+      <h1>Hindi to English Translator</h1>
+
+      <div className="input-box">
+        <textarea
+          rows='4'
+          placeholder="Type your sentence in Hindi here..."
+          value={inpText}
+          onChange={(e)=> setInpText(e.target.value)}
+        />
+      </div>
+
+      <button 
+        onClick={handleTranslate}
+        disabled={isLoading}
+      >
+        {isLoading? 'Translating...' : 'Translate'}
+      </button>
+
+      {Trans}
+    </div>
+  )
 }
 
