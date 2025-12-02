@@ -25,3 +25,23 @@ app.add_middleware(
 
 class TranslationRequest(BaseModel);
     text : str
+
+
+@app.post('/translate')
+async def translate_text(req : TranslationRequest):
+    try :
+        response = client.chat.completions.create(
+            model = 'gpt-40-mini',
+            messages=[
+                {'role' : 'system' , 'content' : 'You are a translator you task it to translates '
+                'all the sentences provided and Hindi to English and return the translation only , '
+                'no greeting or formal extra messages'},
+                {'role' : 'user' , 'content' : req.text}
+            ]
+        )
+
+        English_text = response.choices[0].message.content
+        return {'translation' : English_text}
+    
+    except Exception as e :
+        raise HTTPexception(status_code=500 , detail = str(e))
