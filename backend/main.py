@@ -7,13 +7,14 @@ import google.generativeai as genai
 
 load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel('gemini-2.5-flash-lite')
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 app = FastAPI()
 
 origins = [
     "http://localhost:5173",
     "https://hindi-translator-app.vercel.app", 
+    "https://hin-to-en-gemini-sdk.vercel.app",
     '*'
 ]
 
@@ -36,7 +37,9 @@ def home():
 async def translate_text(request: TranslationRequest):
     try:
         prompt = f"Translate the following Hindi text to English. Only provide the english translation, nothing else.\n\nHindi: {request.text}"
-        
+
+        if not response.text:
+            return {"translation": "Could not translate. Try again."}      
         response = await model.generate_content(prompt)
         
         return {"translation": response.text.strip()}
