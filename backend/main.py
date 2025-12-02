@@ -14,7 +14,7 @@ app = FastAPI()
 origins = [
     "http://localhost:5173",
     "https://hindi-translator-app.vercel.app", 
-    '"*"'
+    '*'
 ]
 
 app.add_middleware(
@@ -28,13 +28,16 @@ app.add_middleware(
 class TranslationRequest(BaseModel):
     text : str
 
+@app.get("/")
+def home():
+    return {"status": "Hindi-English translator API running"}
 
 @app.post("/translate")
 async def translate_text(request: TranslationRequest):
     try:
         prompt = f"Translate the following Hindi text to English. Only provide the english translation, nothing else.\n\nHindi: {request.text}"
         
-        response = model.generate_content(prompt)
+        response = await model.generate_content(prompt)
         
         return {"translation": response.text.strip()}
     
