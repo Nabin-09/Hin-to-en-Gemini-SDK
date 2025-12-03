@@ -1,37 +1,186 @@
-.app-container {
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 20px;
-  text-align: center;
-  font-family: Arial, sans-serif;
+/* 1. Import Cool Rounded Font */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
+/* 2. Full Page Gradient Background */
+.page-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Outfit', sans-serif;
+  padding: 20px;
+}
+
+/* 3. Glassmorphism Card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2.5rem;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 550px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+}
+
+/* 4. Hero Typography */
+.hero-section {
+  margin-bottom: 2rem;
+}
+
+.gradient-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  /* Gradient Text Magic */
+  background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.arrow {
+  color: #2575fc; /* Fallback if gradient fails */
+  display: inline-block;
+  font-size: 2rem;
+  vertical-align: middle;
+}
+
+.subtitle {
+  color: #666;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+/* 5. Input Area */
 textarea {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 16px;
+  border: 2px solid #e0e0e0;
+  background-color: #f8f9fa;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  resize: none;
+  transition: all 0.3s ease;
+  outline: none;
 }
 
-button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+textarea:focus {
+  border-color: #764ba2;
+  box-shadow: 0 0 0 4px rgba(118, 75, 162, 0.1);
+  background-color: #fff;
+}
+
+/* 6. Animated Button */
+.translate-btn {
+  width: 100%;
+  padding: 1rem;
+  margin-top: 1.5rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 700;
   cursor: pointer;
-  font-size: 16px;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 10px 20px rgba(118, 75, 162, 0.3);
 }
 
-button:disabled {
-  background-color: #ccc;
+.translate-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 25px rgba(118, 75, 162, 0.4);
 }
 
+.translate-btn:active {
+  transform: translateY(0);
+}
+
+.translate-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Loader Animation */
+.loader {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #ffffff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 7. Output Box with Fade In */
 .result-box {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #f0f8ff;
-  border-radius: 8px;
-  border: 1px solid #b0d4f1;
+  margin-top: 2rem;
+  text-align: left;
+  background: linear-gradient(135deg, #ffffff 0%, #f3f4f6 100%);
+  padding: 1.5rem;
+  border-radius: 16px;
+  border-left: 5px solid #667eea; /* Nice accent bar */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* Animation for the result */
+.slide-up {
+  animation: slideUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.result-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #764ba2;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.result-box p {
+  font-size: 1.2rem;
+  color: #2d3748;
+  line-height: 1.6;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+  .glass-card {
+    padding: 1.5rem;
+  }
+  .gradient-title {
+    font-size: 2rem;
+  }
 }

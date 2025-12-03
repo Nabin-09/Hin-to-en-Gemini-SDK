@@ -10,9 +10,10 @@ function App() {
     if (!inpText) return;
 
     setIsLoading(true);
-    setTrans("");
+    setTrans(""); 
 
     try {
+      
       const response = await fetch("https://hin-to-en-gemini-sdk.onrender.com/translate", {
         method: "POST",
         headers: {
@@ -22,43 +23,53 @@ function App() {
       });
 
       const data = await response.json();
-
       setTrans(data.translation);
     } catch (error) {
       console.error("Error", error);
-      setTrans(
-        "Some error occurred while translating. Sorry for the inconvenience."
-      );
+      setTrans(" server error. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="app-container">
-      <h1>Hindi to English Translator</h1>
-
-      <div className="input-box">
-        <textarea
-          id="hindi-text"
-          name="hindi-text"
-          rows="4"
-          placeholder="Type your sentence in Hindi here..."
-          value={inpText}
-          onChange={(e) => setInpText(e.target.value)}
-        />
-      </div>
-
-      <button onClick={handleTranslate} disabled={isLoading}>
-        {isLoading ? "Translating..." : "Translate"}
-      </button>
-
-      {Trans && (
-        <div className="result-box">
-          <h3>Translation:</h3>
-          <p>{Trans}</p>
+    <div className="page-wrapper">
+      
+      <div className="glass-card">
+       
+        <div className="hero-section">
+          <h1 className="gradient-title">Hindi <span className="arrow">→</span> English</h1>
+          <p className="subtitle">Powered by Gemini AI • Instant & Accurate</p>
         </div>
-      )}
+
+        <div className="input-box">
+          <textarea
+            rows="4"
+            placeholder="लिखना शुरू करें... (Start typing in Hindi)"
+            value={inpText}
+            onChange={(e) => setInpText(e.target.value)}
+          />
+        </div>
+
+        <button 
+          className={`translate-btn ${isLoading ? "loading" : ""}`} 
+          onClick={handleTranslate} 
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <span className="loader"></span>
+          ) : (
+            "Translate Now"
+          )}
+        </button>
+          
+        {Trans && (
+          <div className="result-box slide-up">
+            <div className="result-label">English Translation</div>
+            <p>{Trans}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
